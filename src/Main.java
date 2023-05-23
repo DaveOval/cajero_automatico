@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Main {
     static int saldo = 10000;
     static int contador = 0;
@@ -27,13 +29,13 @@ public class Main {
                 retirarDinero();
                 break;
             case 2:
-                hacerDeposito();
+                hacerDepositos();
                 break;
             case 3:
                 consultarSaldo();
                 break;
             case 4:
-                //quejas();
+                quejas();
                 break;
             case 5:
                 verMovimiento();
@@ -57,6 +59,7 @@ public class Main {
         }
         while( contador < 3 );
     }
+    //----------------------------- Funciones
     public static void retirarDinero(){
         Scanner scan = new Scanner(System.in);
         System.out.println("=====================================");
@@ -64,12 +67,16 @@ public class Main {
         System.out.println("Dinero disponible: " + saldo);
         System.out.println("Cuanto dinero quieres retirar?");
         System.out.println("''Solo disponible multiplos de $50.00''");
+        System.out.println("Cantidades menores a $6000.00");
         System.out.println("=====================================");
         int opcion = scan.nextInt();
         if (opcion % 50 != 0){
             System.out.println("Cantidad no valida: Solo multiplos de $50,00");
             System.out.println("Saliedo al menu principal...");
-        } else{
+        } else if (opcion > 6000) {
+            System.out.println("No se puede retirar mas de $6000");
+            System.out.println("Saliedo al menu principal...");
+        }else{
             saldo = saldo - opcion ;
             tipoDeUltimoMovimiento = "Retiero de efectivo";
             ultimoRetiro = saldo - opcion;
@@ -82,16 +89,38 @@ public class Main {
             }else{
                 System.out.println("Regresando al menu principal");
             }
+            scan.close();
         }
     }
-    public static void hacerDeposito(){
+    public static void hacerDepositos(){
         System.out.println("=====================================");
-        System.out.println("deposito");
+        System.out.println("        Hacer Depositos");
+        System.out.println("    Ingresa la opcion deseada");
+        System.out.println("=====================================");
+        System.out.println("opcion 1: Cuenta de cheque");
+        System.out.println("Opcion 2: Deposito a tarjeta de credito");
+        Scanner scanner = new Scanner(System.in);
+        int opcion = scanner.nextInt();
+        switch (opcion){
+            case 1:
+                cuentaDeCheque();
+                break;
+            case 2:
+                DepositoATarjetaDeCredito();
+                break;
+            default:
+                System.out.println("Opcion no valida");
+                System.out.println("Saliendo al menu principal...");
+        }
     }
+
     public static void consultarSaldo(){
         System.out.println("=====================================");
         System.out.println("Tu saldo actual es de: " + saldo);
         System.out.println("=====================================");
+    }
+    public static void quejas(){
+        System.out.println("No disponible por el momento");
     }
     public static void verMovimiento(){
         System.out.println("=====================================");
@@ -103,10 +132,14 @@ public class Main {
         System.out.println("       Gracias por tu prefencia.");
         System.out.println("                :D");
         System.out.println("=====================================");
-        contador = 3;
+        exit(0);
     }
-    public static void quejas(){
-        System.out.println("Opcion no disponible ");
+    public static void cuentaDeCheque(){
+
     }
+    public static void DepositoATarjetaDeCredito(){
+
+    }
+
 }
 
