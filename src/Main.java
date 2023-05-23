@@ -1,13 +1,15 @@
+import java.time.LocalDate;
 import java.util.Scanner;
-
+import java.time.format.DateTimeFormatter;
 import static java.lang.System.exit;
 
 public class Main {
-    static int saldo = 10000;
-    static int contador = 0;
-    static String tipoDeUltimoMovimiento = "";
-    static int ultimoRetiro = 0;
-
+    static float saldo = 10000;
+    static float contador = 0;
+    static String tipoDeUltimoMovimiento = "sin movimientos";
+    static LocalDate fechaActual = LocalDate.now();
+    static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+    static String fechaFormateada = fechaActual.format(formatter);
     public static void main(String[] args) {
         do {
             Scanner scan = new Scanner(System.in);
@@ -78,8 +80,7 @@ public class Main {
             System.out.println("Saliedo al menu principal...");
         }else{
             saldo = saldo - opcion ;
-            tipoDeUltimoMovimiento = "Retiero de efectivo";
-            ultimoRetiro = saldo - opcion;
+            tipoDeUltimoMovimiento = "Retiero de efectivo de " + opcion ;
             System.out.println("deseas donar $200 para los gatetes? (y/n) ");
             char donar = scan.next().charAt(0);
             if (donar == 'y'){
@@ -89,10 +90,11 @@ public class Main {
             }else{
                 System.out.println("Regresando al menu principal");
             }
-            scan.close();
+            //scan.close();
         }
     }
     public static void hacerDepositos(){
+        contador = 0;
         System.out.println("=====================================");
         System.out.println("        Hacer Depositos");
         System.out.println("    Ingresa la opcion deseada");
@@ -115,19 +117,23 @@ public class Main {
     }
 
     public static void consultarSaldo(){
+        contador = 0;
         System.out.println("=====================================");
         System.out.println("Tu saldo actual es de: " + saldo);
         System.out.println("=====================================");
     }
     public static void quejas(){
+        contador = 0;
         System.out.println("No disponible por el momento");
     }
     public static void verMovimiento(){
+        contador = 0;
         System.out.println("=====================================");
-        System.out.println("Ultimo movimiento");
+        System.out.println("Ultimo movimiento " + fechaFormateada);
         System.out.println("Tipo de moviminto: " + tipoDeUltimoMovimiento);
     }
     public static void salir(){
+        contador = 0;
         System.out.println("=====================================");
         System.out.println("       Gracias por tu prefencia.");
         System.out.println("                :D");
@@ -135,11 +141,30 @@ public class Main {
         exit(0);
     }
     public static void cuentaDeCheque(){
-
+        System.out.println("Deposito a tarjeta de credito");
+        System.out.println("Ingresa la cantidad para depositar");
+        System.out.println("Solo multiplos de $50.00");
+        Scanner scan = new Scanner(System.in);
+        int opcion = scan.nextInt();
+        if(opcion % 50 != 0){
+            System.out.println("Cantidad no valida: Solo multiplos de $50,00");
+            System.out.println("Saliedo al menu principal...");
+        }else{
+            saldo = saldo + opcion;
+            System.out.println("Deposito de: " + opcion + " Realizada con exito" );
+            System.out.println("Saldo: " + saldo);
+            tipoDeUltimoMovimiento = "Deposito en cuenta de cheque de " + opcion;
+        }
     }
     public static void DepositoATarjetaDeCredito(){
-
+        System.out.println("Deposito a tarjeta de credito");
+        System.out.println("Ingresa la cantidad a depositar a tu tarjeta de credito");
+        Scanner scan = new Scanner(System.in);
+        float opcion = scan.nextFloat();
+        saldo = saldo - opcion;
+        tipoDeUltimoMovimiento = ("Retiro a tarjeta de credito de " + opcion);
+        System.out.println("Cantidad a retirar a la tarjeta de credito " + opcion);
+        System.out.println("Saldo: " + saldo);
     }
-
 }
 
